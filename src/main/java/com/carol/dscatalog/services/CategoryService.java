@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,13 @@ public class CategoryService {
 
     public CategoryDto findById(Long id) {
         Category category = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("Category not found."));
+        return new CategoryDto(category);
+    }
+
+    public CategoryDto insert(CategoryDto dto) {
+        Category category = new Category();
+        category.setName(dto.getName());
+        category = repository.save(category);
         return new CategoryDto(category);
     }
 }
